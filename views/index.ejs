@@ -1,0 +1,8 @@
+<% include partials/header %>
+
+<% celebs.forEach(function(celeb){%>
+	<h2><%= celeb.name %></h2>
+	<img src="<%= celeb.image %>" width= 200>
+<%})%>
+
+<% include partials/footer %> 
