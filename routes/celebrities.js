@@ -22,17 +22,24 @@ router.get("/celebrities/new", function(req, res){
 	res.render("new");
 }); 
    //// CREATE ROUTE ////  
-router.post("/celebrities", function(req, res){
-	console.log(req.body.name)
-	var name = req.body.name;
-	var image = req.body.image;
-	Celebrity.create({name:name, image:image}, function(err, celebs){
+router.post("/celebrities", function(req, res){ 
+	Celebrity.create(req.body.celeb, function(err, celebs){
 			if(err){
 				console.log("something happened wrong");
 			}else {
 			 	console.log(celebs);
 			 	res.redirect("/celebrities"); 
 			}
+	});
+});
+   //// SHOW ROUTES ///////
+router.get("/celebrities/:id", function(req, res){
+	Celebrity.findById(req.params.id, function(err, celeb){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("show", {celeb: celeb});
+		}
 	});
 });   
 
