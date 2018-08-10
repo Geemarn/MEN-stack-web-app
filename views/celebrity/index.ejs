@@ -1,0 +1,26 @@
+<% include ../partials/header %>
+<div class= "container">
+	<div class= "jumbotron">
+	<div class= "container">
+		<h2>Welcome to celebrity home page<h2>
+		<p>its all about exploring</p>
+		<a href= "/celebrities/new" class= "btn btn-success">Add New Celebrity</a>
+	</div>
+	</div>
+	<div class= "row">
+		<% celebs.forEach(function(celeb){%>
+			<div class= "col-md-3 col-sm-4">
+				<div class= "thumbnail index text-center">
+					<img src="<%= celeb.image %>">
+					<div class= "caption">
+						<h4><%= celeb.name %></h4>
+						<a href= "/celebrities/<%= celeb._id %>" class= "btn btn-sm btn-info">
+						Read More</a>
+					</div>
+				</div>
+			</div>
+		<%})%>
+	</div>
+</div>
+
+<% include ../partials/footer %> 

@@ -8,6 +8,7 @@ seedDB()
 
 	/// REQUIRING ROUTES ////
 var celebrityRoute = require("./routes/celebrities");
+var commentRoute = require("./routes/comments");
 
 
     //// APP CONFIG ////
@@ -23,6 +24,7 @@ app.use(methodOverride("_method"));
 
 
 app.use(celebrityRoute);
+app.use(commentRoute);
 app.listen(3000, "127.0.0.1", () => {
 	console.log("server running at port:3000");
 })

@@ -1,12 +1,12 @@
 var express    = require("express"),
     router     = express.Router(),
-    Celebrity  = require("../models/celebrities"),
+    Celebrity  = require("../models/celebrities");
 
 
 
     ///LANDING ROUTE ////
 router.get("/", function(req, res){
- 	res.render("landing");
+ 	res.render("celebrity/landing");
  })
     //// INDEX ROUTE ////
 router.get("/celebrities", function(req, res){
@@ -14,13 +14,13 @@ router.get("/celebrities", function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("index", {celebs:celebs});
+			res.render("celebrity/index", {celebs:celebs});
 		}
 	})
  });
    //// NEW ROUTE //////
 router.get("/celebrities/new", function(req, res){
-	res.render("new");
+	res.render("celebrity/new");
 }); 
    //// CREATE ROUTE ////  
 router.post("/celebrities", function(req, res){ 
@@ -39,7 +39,7 @@ router.get("/celebrities/:id", function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("show", {celeb: celeb});
+			res.render("celebrity/show", {celeb: celeb});
 		}
 	});
 });   

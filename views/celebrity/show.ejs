@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 <div class= "container">
 	<div class= "row">
 		<div class= "col-md-4">
@@ -16,12 +16,13 @@
 				<p><%= celeb.description %></p>
 			</div>
 			<div class= "well">
-			<% celeb.comments.forEach(function(comment){ %>
-				<p><%= comment.author %></p>
-				<p><%= comment.text %></p>
-			<% }) %>
+				<a href= "/celebrities/<%= celeb._id%>/comments/new"              class= "btn btn-success" >Add New Comment</a>
+				<% celeb.comments.forEach(function(comment){ %>
+					<p><%= comment.author %></p>
+					<p><%= comment.text %></p>
+				<% }) %>
 			</div>
 		</div>
 	</div>
 </div>
-<% include partials/footer %>
+<% include ../partials/footer %>
