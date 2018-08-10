@@ -1,6 +1,7 @@
 var express    = require("express"),
     router     = express.Router(),
-    Celebrity  = require("../models/celebrities");
+    Celebrity  = require("../models/celebrities"),
+
 
 
     ///LANDING ROUTE ////
@@ -34,7 +35,7 @@ router.post("/celebrities", function(req, res){
 });
    //// SHOW ROUTES ///////
 router.get("/celebrities/:id", function(req, res){
-	Celebrity.findById(req.params.id, function(err, celeb){
+	Celebrity.findById(req.params.id).populate("comments").exec(function(err, celeb){
 		if(err){
 			console.log(err);
 		}else{
