@@ -2,7 +2,9 @@ var express         = require("express"),
 	bodyParser      = require("body-parser"),
 	mongoose        = require("mongoose"),
 	methodOverride  = require("method-override"),
-	app             = express();
+	app             = express(),
+	seedDB          = require("./seeds");
+seedDB()
 
 	/// REQUIRING ROUTES ////
 var celebrityRoute = require("./routes/celebrities");

@@ -1,5 +1,27 @@
-
-
-<h2><%= celeb.name %></h2>
-<img src= "<%= celeb.image %>" width= 600>
-<p><%= celeb.description %></p>
+<% include partials/header %>
+<div class= "container">
+	<div class= "row">
+		<div class= "col-md-4">
+			<ul class= "list ">
+				<li>aaaaaa</li>
+				<li>bbbbbb</li>
+				<li>cccccc</li>
+				<li>dddddd</li>
+			</ul>
+		</div>
+		<div class= "col-md-8">
+			<h2><%= celeb.name %></h2>
+			<div class= "thumbnail show">
+				<img src= "<%= celeb.image %>">
+				<p><%= celeb.description %></p>
+			</div>
+			<div class= "well">
+			<% celeb.comments.forEach(function(comment){ %>
+				<p><%= comment.author %></p>
+				<p><%= comment.text %></p>
+			<% }) %>
+			</div>
+		</div>
+	</div>
+</div>
+<% include partials/footer %>
