@@ -1,13 +1,14 @@
-var express = require("express"),
-router      = express.Router({mergeParams: true}),
-Comment     = require("../models/comments"),
-Celebrity   = require("../models/celebrities");
+var express       = require("express"),
+	router        = express.Router({mergeParams: true}),
+	Comment       = require("../models/comments"),
+	Celebrity     = require("../models/celebrities"),
+	middlewareObj = require("../middleware");
 
   /* ==============================  
  NESTED COMMENT INSIDE OF CELEBRITY
   ================================= */
      /////  NEW ROUTE //////
-router.get("/new", isLoggedin, function(req, res){
+router.get("/new", middlewareObj.isLoggedin, function(req, res){
 	Celebrity.findById(req.params.id, function(err, foundCeleb){
 		if(err){
 			console.log("cannot find Celebrity");
@@ -17,10 +18,10 @@ router.get("/new", isLoggedin, function(req, res){
 	});
 });
 	////// CREATE ROUTE //////
-router.post("/", isLoggedin, function(req, res){
+router.post("/", middlewareObj.isLoggedin, function(req, res){
 	Celebrity.findById(req.params.id, function(err, foundCeleb){
 		if(err){
-			console.log("connot find Celebrity Id");
+			console.log("cannot find Celebrity Id");
 		}else {
 			Comment.create(req.body.comment, function(err, comment){
 				if(err){
@@ -29,7 +30,6 @@ router.post("/", isLoggedin, function(req, res){
 					comment.author.id = req.user._id;
 					comment.author.username = req.user.username;
 					comment.save();
-					console.log(comment)
 					foundCeleb.comments.push(comment);
 					foundCeleb.save();
 					res.redirect("/celebrities/" + foundCeleb._id);
@@ -38,16 +38,44 @@ router.post("/", isLoggedin, function(req, res){
 		};
 	});
 });
+	///// EDIT ROUTE //////
+router.get("/:id2/edit", middlewareObj.checkCommentAuthor, function(req, res){
+	Celebrity.findById(req.params.id, function(err, foundCeleb){
+		if(err){
+			console.log("cannot find Celebrity");
+		}else {
+			Comment.findById(req.params.id2, function(err, editComment){
+				if(err){
+					console.log("err");
+				}else{
+					res.render("comment/edit", {comment: editComment, celeb: foundCeleb});
+				};
+			});
 
-function isLoggedin (req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
+		};
+	});
+});
+	////UDATE ROUTE ///////
+router.put("/:id2", middlewareObj.checkCommentAuthor, function(req, res){
+	Comment.findByIdAndUpdate(req.params.id2, req.body.comment, function(err, updatedComment){
+		if(err){
+			console.log("error again");
+			res.redirect("/celebrities");
+		}else{
+			res.redirect("/celebrities/"+ req.params.id);
+		};
+	});
+});
+	//////DESTROY ROUTE /////
+router.delete("/:id2", middlewareObj.checkCommentAuthor,  function(req,res){
+	Comment.findByIdAndRemove(req.params.id2, function(err, deletedComment){
+		if(err){
+			console.log("errrror");
+		}else{
+			res.redirect("/celebrities/"+ req.params.id);
+		};
+	});
+});
 
 
-
-
-
-module.exports = router
+module.exports = router;

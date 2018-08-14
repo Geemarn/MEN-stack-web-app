@@ -1,6 +1,7 @@
-var express    = require("express"),
-    router     = express.Router(),
-    Celebrity  = require("../models/celebrities");
+var express       = require("express"),
+    router        = express.Router(),
+    Celebrity     = require("../models/celebrities"),
+    middlewareObj = require("../middleware");
 
 
     //// INDEX ROUTE ////
@@ -14,11 +15,11 @@ router.get("/", function(req, res){
 	})
  });
    //// NEW ROUTE //////
-router.get("/new", isLoggedin, function(req, res){
+router.get("/new", middlewareObj.isLoggedin, function(req, res){
 	res.render("celebrity/new");
 }); 
    //// CREATE ROUTE ////  
-router.post("/", isLoggedin, function(req, res){ 
+router.post("/", middlewareObj.isLoggedin, function(req, res){ 
 	Celebrity.create(req.body.celeb, function(err, celebs){
 			if(err){
 				console.log("something happened wrong");
@@ -28,7 +29,7 @@ router.post("/", isLoggedin, function(req, res){
 			 	celebs.save();
 			 	console.log(celebs.owner.id)
 			 	res.redirect("/celebrities"); 
-			}
+			};
 	});
 });
    //// SHOW ROUTES ///////
@@ -41,11 +42,36 @@ router.get("/:id", function(req, res){
 		}
 	});
 });   
+	///// EDIT ROUTE //////
+router.get("/:id/edit", middlewareObj.checkCelebOwner, function(req, res){
+	Celebrity.findById(req.params.id, function(err, editCeleb){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("celebrity/edit", {editCeleb: editCeleb});
+		};
+	});
+});
+   //// UPDATE ROUTE /////
+router.put("/:id", middlewareObj.checkCelebOwner, function(req, res){
+	Celebrity.findByIdAndUpdate(req.params.id, req.body.celeb, function(err, editCeleb){
+		if(err){
+			console.log(err);
+		}else{
+			res.redirect("/celebrities/"+ req.params.id);
+		};
+	});
+});
+   //// DESTROY ROUTE /////
+router.delete("/:id", function(req, res){
+	Celebrity.findByIdAndRemove(req.params.id, function(err, deletedCeleb){
+		if(err){
+			console.log(err);
+		}else{
+			res.redirect("/celebrities");
+		};
+	});
+});
 
-function isLoggedin (req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
+
 module.exports = router;
