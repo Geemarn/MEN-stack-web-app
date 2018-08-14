@@ -19,32 +19,35 @@ function seedDB(){
 			console.log("celebrities removed");
 		}
 	},
-	celebArray.forEach(function(celeb){
-		Celebrity.create(celeb, function(err, celeb){
-			if(err){
-				console.log("cannot create Celebrity");
-			}else{
-				console.log("Celebrity added");
-				Comment.create({
-					text: "this girls are juzt adorable and elegent",
-					author: "Adorable girls"
-				}, function(err, comment){
-					if(err){
-						console.log("connot create comment");
-					}else {
-						celeb.comments.push(comment)
-						celeb.save(function(err, savedCeleb){
-							if(err){
-								console.log("connot save Celebrity")
-							}else{
-								console.log("Celebrity saved")
-							}
-						})
-					}
-				})
-			}
-		})
-	})
+	// celebArray.forEach(function(celeb){
+	// 	Celebrity.create(celeb, function(err, celeb){
+	// 		if(err){
+	// 			console.log("cannot create Celebrity");
+	// 		}else{
+	// 			console.log("Celebrity added");
+	// 			Comment.create({
+	// 				text: "this girls are juzt adorable and elegent",
+	// 				// author: "Adorable girls"
+	// 			}, function(err, comment){
+	// 				if(err){
+	// 					console.log("connot create comment");
+	// 				}else {
+	// 					comment.author.id = currentUser._id;
+	// 					comment.author.username = currentUser.username;
+	// 					comment.save();
+	// 					celeb.comments.push(comment)
+	// 					celeb.save(function(err, savedCeleb){
+	// 						if(err){
+	// 							console.log("connot save Celebrity")
+	// 						}else{
+	// 							console.log("Celebrity saved")
+	// 						}
+	// 					})
+	// 				}
+	// 			})
+	// 		}
+	// 	})
+	// })
 	);
 };
 module.exports = seedDB;

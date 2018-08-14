@@ -3,13 +3,8 @@ var express    = require("express"),
     Celebrity  = require("../models/celebrities");
 
 
-
-    ///LANDING ROUTE ////
-router.get("/", function(req, res){
- 	res.render("celebrity/landing");
- })
     //// INDEX ROUTE ////
-router.get("/celebrities", function(req, res){
+router.get("/", function(req, res){
 	Celebrity.find({}, function(err, celebs){
 		if(err){
 			console.log(err);
@@ -19,22 +14,25 @@ router.get("/celebrities", function(req, res){
 	})
  });
    //// NEW ROUTE //////
-router.get("/celebrities/new", function(req, res){
+router.get("/new", isLoggedin, function(req, res){
 	res.render("celebrity/new");
 }); 
    //// CREATE ROUTE ////  
-router.post("/celebrities", function(req, res){ 
+router.post("/", isLoggedin, function(req, res){ 
 	Celebrity.create(req.body.celeb, function(err, celebs){
 			if(err){
 				console.log("something happened wrong");
 			}else {
-			 	console.log(celebs);
+				celebs.owner.id = req.user._id;
+				celebs.owner.username = req.user.username;
+			 	celebs.save();
+			 	console.log(celebs.owner.id)
 			 	res.redirect("/celebrities"); 
 			}
 	});
 });
    //// SHOW ROUTES ///////
-router.get("/celebrities/:id", function(req, res){
+router.get("/:id", function(req, res){
 	Celebrity.findById(req.params.id).populate("comments").exec(function(err, celeb){
 		if(err){
 			console.log(err);
@@ -44,4 +42,10 @@ router.get("/celebrities/:id", function(req, res){
 	});
 });   
 
+function isLoggedin (req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
 module.exports = router;

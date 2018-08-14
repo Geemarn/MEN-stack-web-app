@@ -1,14 +1,20 @@
-var express         = require("express"),
-	bodyParser      = require("body-parser"),
-	mongoose        = require("mongoose"),
-	methodOverride  = require("method-override"),
-	app             = express(),
-	seedDB          = require("./seeds");
-seedDB()
+var passportLocalMongoose = require("passport-local-mongoose"),
+	methodOverride        = require("method-override"),
+	localStrategy         = require("passport-local"),
+	bodyParser            = require("body-parser"),
+	passport              = require("passport"),
+	mongoose              = require("mongoose"),
+	express               = require("express"),
+	User                  = require("./models/user"),
+	seedDB                = require("./seeds"),
+	app                   = express();
+
+// seedDB();
 
 	/// REQUIRING ROUTES ////
-var celebrityRoute = require("./routes/celebrities");
-var commentRoute = require("./routes/comments");
+var celebrityRoute = require("./routes/celebrities"),
+ 	commentRoute   = require("./routes/comments"),
+	userRoute     =  require("./routes/user");
 
 
     //// APP CONFIG ////
@@ -19,12 +25,29 @@ app.use(express.static("public"));
 app.use("/celebrities", express.static("public/celebPics"));
 app.use(methodOverride("_method"));
 
+   ///// AUTH CONFIG /////
+app.use(require("express-session")({
+  	secret: "this is my celebrity app",
+  	resave: false,
+  	saveUninitialized: false
+  }));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+    //// MIDDLEWARE //////
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	next();
+})
 
 
 
-
-app.use(celebrityRoute);
-app.use(commentRoute);
+app.use(userRoute);
+app.use("/celebrities", celebrityRoute);
+app.use("/celebrities/:id/comments", commentRoute);
 app.listen(3000, "127.0.0.1", () => {
 	console.log("server running at port:3000");
 })
