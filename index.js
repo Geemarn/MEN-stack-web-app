@@ -4,6 +4,7 @@ var passportLocalMongoose = require("passport-local-mongoose"),
 	bodyParser            = require("body-parser"),
 	passport              = require("passport"),
 	mongoose              = require("mongoose"),
+	flash                 = require("connect-flash"),
 	express               = require("express"),
 	User                  = require("./models/user"),
 	seedDB                = require("./seeds"),
@@ -24,6 +25,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use("/celebrities", express.static("public/celebPics"));
 app.use(methodOverride("_method"));
+app.use(flash());
 
    ///// AUTH CONFIG /////
 app.use(require("express-session")({
@@ -40,14 +42,16 @@ passport.deserializeUser(User.deserializeUser());
     //// MIDDLEWARE //////
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
+	res.locals.success     = req.flash("success");
+	res.locals.error       = req.flash("error");
 	next();
-})
+});
 
-
-
+	///	ROUTER CONFIG ///
 app.use(userRoute);
 app.use("/celebrities", celebrityRoute);
 app.use("/celebrities/:id/comments", commentRoute);
+
 app.listen(3000, "127.0.0.1", () => {
 	console.log("server running at port:3000");
-})
+});

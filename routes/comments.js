@@ -32,6 +32,7 @@ router.post("/", middlewareObj.isLoggedin, function(req, res){
 					comment.save();
 					foundCeleb.comments.push(comment);
 					foundCeleb.save();
+					req.flash("success", "COMMENT CREATED SUCCESSFULLY");
 					res.redirect("/celebrities/" + foundCeleb._id);
 				};
 			});
@@ -62,6 +63,7 @@ router.put("/:id2", middlewareObj.checkCommentAuthor, function(req, res){
 			console.log("error again");
 			res.redirect("/celebrities");
 		}else{
+			req.flash("success", "COMMENT EDIT SUCCESSFUL");
 			res.redirect("/celebrities/"+ req.params.id);
 		};
 	});
@@ -72,6 +74,7 @@ router.delete("/:id2", middlewareObj.checkCommentAuthor,  function(req,res){
 		if(err){
 			console.log("errrror");
 		}else{
+			req.flash("success", "COMMENT DELETED");
 			res.redirect("/celebrities/"+ req.params.id);
 		};
 	});

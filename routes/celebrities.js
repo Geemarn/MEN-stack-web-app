@@ -28,6 +28,7 @@ router.post("/", middlewareObj.isLoggedin, function(req, res){
 				celebs.owner.username = req.user.username;
 			 	celebs.save();
 			 	console.log(celebs.owner.id)
+			 	req.flash("success", "CELEBRITY PROFILE CREATE SUCCESSFUL");
 			 	res.redirect("/celebrities"); 
 			};
 	});
@@ -58,6 +59,7 @@ router.put("/:id", middlewareObj.checkCelebOwner, function(req, res){
 		if(err){
 			console.log(err);
 		}else{
+			req.flash("success", "CELEBRITY PROFILE EDIT SUCCESSFUL");
 			res.redirect("/celebrities/"+ req.params.id);
 		};
 	});
@@ -68,6 +70,7 @@ router.delete("/:id", function(req, res){
 		if(err){
 			console.log(err);
 		}else{
+			req.flash("success", "CELEBRITY PROFILE DELETED");
 			res.redirect("/celebrities");
 		};
 	});
