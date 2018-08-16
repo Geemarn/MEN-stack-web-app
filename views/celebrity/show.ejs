@@ -2,46 +2,58 @@
 <div class= "container">
 	<div class= "row">
 		<div class= "col-md-3">
-			<p class= "lead">Celebs</p>
+			<p id= "lead">Celebs</p>
 			<ul class= "list-group ">
-				<li class= "list-group-item active">aaaaaa</li>
-				<li class= "list-group-item">bbbbbb</li>
-				<li class= "list-group-item">cccccc</li>
-				<li class= "list-group-item">dddddd</li>
+				<li class= "list-group-item ">Profile</li>
+				<li class= "list-group-item">Website</li>
+				<li class= "list-group-item">Contact</li>
+				<li class= "list-group-item">Links</li>
 			</ul>
 		</div>
 		<div class= "col-md-9">
 			<div class= "thumbnail show">
 				<img src= "<%= celeb.image %>">
 				<div class= "caption">
-					<p class= " h4 pull-right">1000</p>
-					<p class="h4 text-info text-capitalize"><%= celeb.name %></p>
+					<p class= " lead pull-right"><%= celeb.country %></p>
+					<p class="lead text-info text-capitalize"><%= celeb.name %></p>
 					<p class= "text-justify"><%= celeb.description %></p>
-					<p>Created By <em><%=celeb.owner.username %></em></p>
+					<p class= "text-info text-capitalize"><em>Created By <span 
+					class= "h4 text-primary"><%=celeb.owner.username %></span> <%= moment(celeb.create).fromNow() %></em></p>
 					<% if(currentUser && currentUser._id.equals(celeb.owner.id)){ %>
-						<a class= "btn btn-warning" href= "/celebrities/<%= celeb._id %>/edit"> Edit Celebrity</a>
-						<form class= "pull-right" action= "/celebrities/<%= celeb._id %>?_method=DELETE" method= POST>
-							<input class= "btn btn-danger " type= "submit">
-						</form>
+						<div class= "text-right">
+							<a class= "btn btn-warning" href= "/celebrities/<%= celeb._id %>/edit">EDIT</a>
+							<form class= "inline" action= "/celebrities/<%= celeb._id %>?_method=DELETE" method= POST>
+								<input class= "btn btn-danger destory" type= "submit" value= "DELETE">
+							</form>
+						</div>
 					<% } %>
 				</div>
 			</div>
 			<div class= "well">
-				<p class= "text-right"><a href= "/celebrities/<%= celeb._id%>/comments/new" class= "btn btn-success btn-sm " >Add New Comment</a></p>
+				<p class= "text-right"><a href= "/celebrities/<%= celeb._id%>/comments/new" class= "btn btn-success " >Add New Comment</a></p>
 				<hr>
-				<p class= "pull-right text-muted">10 days ago</p>
 				<% celeb.comments.forEach(function(comment){ %>
-					<p class= "text-capitalize"><%= comment.author.username %></p>
+					<p class= "pull-right text-muted"><%= moment(comment.create).fromNow() %></p>
+					<p class= " h4 text-capitalize"><%= comment.author.username %></p>
+					<div style= "clear:both">
 					<p class= "text-justify"><%= comment.text %></p>
 					<% if(currentUser && currentUser._id.equals(comment.author.id)){ %>
-						<a class= "btn btn-warning" href= "/celebrities/<%= celeb._id%>/comments/<%= comment._id %>/edit">Edit Comment</a>
-						<form action= "/celebrities/<%= celeb._id %>/comments/<%= comment._id %>?_method=DELETE" method= "POST"> 
-							<input class= "btn btn-danger btn-xs" type= "submit" value= "DELETE">
+						<a class= "btn btn-warning btn-xs" href= "/celebrities/<%= celeb._id%>/comments/<%= comment._id %>/edit">Edit Comment</a>
+						<form class= "inline" action= "/celebrities/<%= celeb._id %>/comments/<%= comment._id %>?_method=DELETE" method= "POST"> 
+							<input class= "btn btn-danger btn-xs destory" type= "submit" value= "DELETE">
 						</form>
+						<hr>
 					<% } %>
 				<% }) %>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+			$(".destory").click(function(){
+				return confirm("ARE YOU SURE YOU WANT TO DELETE THIS");
+			});
+		});
+	</script>
 </div>
 <% include ../partials/footer %>

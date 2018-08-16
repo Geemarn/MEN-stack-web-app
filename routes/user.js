@@ -2,12 +2,11 @@ var express  = require("express"),
 	passport = require("passport"),
 	router   = express.Router(),
 	User     = require("../models/user");
-
+	
     ///LANDING ROUTE ////
 router.get("/", function(req, res){
  	res.render("landing");
  });
-
        //// SIGN UP FORM ROUTE////	
 router.get("/register", function(req, res){
 	res.render("register");
@@ -41,7 +40,6 @@ router.get("/logout", function(req, res){
 	req.flash("success", "LOGOUT SUCCESSFUL");
 	res.redirect("/")
 })
-
 
 module.exports = router;
 

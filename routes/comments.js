@@ -52,7 +52,6 @@ router.get("/:id2/edit", middlewareObj.checkCommentAuthor, function(req, res){
 					res.render("comment/edit", {comment: editComment, celeb: foundCeleb});
 				};
 			});
-
 		};
 	});
 });
@@ -79,6 +78,5 @@ router.delete("/:id2", middlewareObj.checkCommentAuthor,  function(req,res){
 		};
 	});
 });
-
 
 module.exports = router;

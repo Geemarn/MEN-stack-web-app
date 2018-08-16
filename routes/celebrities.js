@@ -2,8 +2,6 @@ var express       = require("express"),
     router        = express.Router(),
     Celebrity     = require("../models/celebrities"),
     middlewareObj = require("../middleware");
-
-
     //// INDEX ROUTE ////
 router.get("/", function(req, res){
 	Celebrity.find({}, function(err, celebs){
@@ -11,8 +9,8 @@ router.get("/", function(req, res){
 			console.log(err);
 		}else{
 			res.render("celebrity/index", {celebs:celebs});
-		}
-	})
+		};
+	});
  });
    //// NEW ROUTE //////
 router.get("/new", middlewareObj.isLoggedin, function(req, res){
@@ -27,7 +25,6 @@ router.post("/", middlewareObj.isLoggedin, function(req, res){
 				celebs.owner.id = req.user._id;
 				celebs.owner.username = req.user.username;
 			 	celebs.save();
-			 	console.log(celebs.owner.id)
 			 	req.flash("success", "CELEBRITY PROFILE CREATE SUCCESSFUL");
 			 	res.redirect("/celebrities"); 
 			};
@@ -75,6 +72,4 @@ router.delete("/:id", function(req, res){
 		};
 	});
 });
-
-
 module.exports = router;

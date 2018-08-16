@@ -1,8 +1,8 @@
 var Comment     = require("../models/comments"),
     Celebrity   = require("../models/celebrities");
 
-
 middlewareObj = {};
+	//// CHECK IF USER IS LOGIN /////
 middlewareObj.isLoggedin = function (req, res, next){
 	if(req.isAuthenticated()){
 		return next();
@@ -22,16 +22,15 @@ middlewareObj.checkCommentAuthor = function (req, res, next){
 					next();
 				}else{
 					req.flash("error", "YOU DO NOT HAVE PERMISSION TO DO THIS");
-					res.redirect("back")
-				}
-			}
-		})
-
+					res.redirect("back");
+				};
+			};
+		});
 	}else{
 		req.flash("error", "OPPS!!..PLEASE LOGIN FIRST");
 		res.redirect("back")
-	}
-}
+	};
+};
 	//// CHECK IF USER OWNS A CELEB /////
 middlewareObj.checkCelebOwner = function (req, res, next){
 	if(req.isAuthenticated()){
@@ -53,4 +52,4 @@ middlewareObj.checkCelebOwner = function (req, res, next){
 		res.redirect("back");;
 }};
 	
-module.exports = middlewareObj
+module.exports = middlewareObj;
