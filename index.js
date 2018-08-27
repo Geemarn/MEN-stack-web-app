@@ -21,7 +21,6 @@ userRoute     =  require("./routes/user");
 // configure dotenv
 require('dotenv').load();
 const databaseUri = process.env.MONGODB_URI || 'mongodb://localhost/celebsDB';
-
 mongoose.connect(databaseUri)
 .then(() => console.log(`Database connected`))
 .catch(err => console.log(`Database connection error: ${err.message}`));
