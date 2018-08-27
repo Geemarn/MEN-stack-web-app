@@ -1,8 +1,8 @@
 var Comment     = require("../models/comments"),
     Celebrity   = require("../models/celebrities");
 
-middlewareObj = {};
-	//// CHECK IF USER IS LOGIN /////
+var middlewareObj = {};
+//// CHECK IF USER IS LOGIN /////
 middlewareObj.isLoggedin = function (req, res, next){
 	if(req.isAuthenticated()){
 		return next();
@@ -10,7 +10,7 @@ middlewareObj.isLoggedin = function (req, res, next){
 	req.flash("error", "OPPS!!..PLEASE LOGIN FIRST");
 	res.redirect("/login");
 };
-	///	TO CHECK IF AUTHOR OWNS COMMENT ////
+///	TO CHECK IF AUTHOR OWNS COMMENT ////
 middlewareObj.checkCommentAuthor = function (req, res, next){
 	if(req.isAuthenticated()){
 		Comment.findById(req.params.id2, function(err, commentAuthor){
@@ -18,7 +18,7 @@ middlewareObj.checkCommentAuthor = function (req, res, next){
 				req.flash("error", "CANNOT FIND COMMENT");
 				res.redirect("back");
 			}else{
-				if(req.user._id.equals(commentAuthor.author.id)){
+				if(req.user._id.equals(commentAuthor.author.id) || req.user.isAdmin){
 					next();
 				}else{
 					req.flash("error", "YOU DO NOT HAVE PERMISSION TO DO THIS");
@@ -31,7 +31,7 @@ middlewareObj.checkCommentAuthor = function (req, res, next){
 		res.redirect("back")
 	};
 };
-	//// CHECK IF USER OWNS A CELEB /////
+//// CHECK IF USER OWNS A CELEB /////
 middlewareObj.checkCelebOwner = function (req, res, next){
 	if(req.isAuthenticated()){
 		Celebrity.findById(req.params.id, function(err, celebOwner){
@@ -39,7 +39,7 @@ middlewareObj.checkCelebOwner = function (req, res, next){
 				req.flash("error", "CANNOT FIND CELEBRITY DATA");
 				res.redirect("back");
 			}else{
-				if(req.user._id.equals(celebOwner.owner.id)){
+				if(req.user._id.equals(celebOwner.owner.id) || req.user.isAdmin){
 					next();
 				}else{
 					req.flash("error", "YOU DO NOT HAVE PERMISSION TO DO THIS");
@@ -50,6 +50,6 @@ middlewareObj.checkCelebOwner = function (req, res, next){
 	}else{
 		req.flash("error", "OPPS!!..PLEASE LOGIN FIRST");
 		res.redirect("back");;
-}};
+	}};
 	
 module.exports = middlewareObj;

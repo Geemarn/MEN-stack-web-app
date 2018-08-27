@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var celebritySchema = new mongoose.Schema({
 	name:String,
 	image:String,
+	imageId: String,
 	description:String,
 	country:String,
 	created: {type: Date, default: Date.now },

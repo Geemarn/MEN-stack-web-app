@@ -8,15 +8,15 @@ var express       = require("express"),
  NESTED COMMENT INSIDE OF CELEBRITY
   ================================= */
      /////  NEW ROUTE //////
-router.get("/new", middlewareObj.isLoggedin, function(req, res){
-	Celebrity.findById(req.params.id, function(err, foundCeleb){
-		if(err){
-			console.log("cannot find Celebrity");
-		}else {
-			res.render("comment/new", {celeb:foundCeleb});
-		};
-	});
-});
+ router.get("/new", middlewareObj.isLoggedin, function(req, res){
+ 	Celebrity.findById(req.params.id, function(err, foundCeleb){
+ 		if(err){
+ 			console.log("cannot find Celebrity");
+ 		}else {
+ 			res.render("comment/new", {celeb:foundCeleb});
+ 		};
+ 	});
+ });
 	////// CREATE ROUTE //////
 router.post("/", middlewareObj.isLoggedin, function(req, res){
 	Celebrity.findById(req.params.id, function(err, foundCeleb){

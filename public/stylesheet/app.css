@@ -66,6 +66,7 @@ body {
 	}
 }
 .thumbnail.index, .thumbnail.show {
+	background: #f7f7f7;
 	border:none;
 }
 #lead {
@@ -112,4 +113,26 @@ body {
 }
 textarea {
 	resize: none;
+}
+.form-search {
+	width:180px;
+	margin-top: 8px;
+	padding: 5px 5px 5px 15px;
+	border:none;
+	box-shadow: 0 0 4px brown inset;
+	background: #f7f7f7;
+}
+.form-search:hover {
+	background: #f5f5f5;
+	box-shadow: 0 0 6px brown;
+}
+.form-search-nav {
+	width:180px;
+	padding: 6px 8px 6px 15px;
+	border:1px solid lightgray;
+	background: #f7f7f7;
+}
+.form-search-nav:hover {
+	background: #f2f2f2;
+	box-shadow: 0 0 1px gray;
 }

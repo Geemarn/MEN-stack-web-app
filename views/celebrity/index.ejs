@@ -1,10 +1,14 @@
-<% include ../partials/header %>
+	<% include ../partials/header %>
+
 <div class= "container">
 	<div class= "jumbotron">
 		<div class= "container">
-			<h2>CELEBRITY PHOTO-BLOG </h2>
+			<h2> CELEBRITY PHOTO-BLOG </h2>
 			<p><em>its all about exploring.....</em></p>
 			<a href= "/celebrities/new" class= "btn btn-success">Add New Celebrity</a>
+			<form action="/celebrities" method="GET">
+				<input class="form-search" type="text" name="fuzzySearch" placeholder="Search Celebrities">
+			</form>
 		</div>
 	</div>
 	<div class= "row">
@@ -21,6 +25,11 @@
 			</div>
 		<%})%>
 	</div>
+	<% if(noMatch){ %>
+		<div class="text-center text-danger lead">
+			<p>No celebrity match that query...please try again</p>
+		</div>
+	<% } %>
 </div>
 
 <% include ../partials/footer %> 

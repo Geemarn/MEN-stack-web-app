@@ -14,25 +14,31 @@ var passportLocalMongoose = require("passport-local-mongoose"),
 
 	/// REQUIRING ROUTES ////
 var celebrityRoute = require("./routes/celebrities"),
- 	commentRoute   = require("./routes/comments"),
-	userRoute     =  require("./routes/user");
+commentRoute   = require("./routes/comments"),
+userRoute     =  require("./routes/user");
 
     //// APP CONFIG ////
-mongoose.connect("mongodb://localhost/celebsDB");
+// configure dotenv
+require('dotenv').load();
+const databaseUri = process.env.MONGODB_URI || 'mongodb://localhost/celebsDB';
+
+mongoose.connect(databaseUri)
+.then(() => console.log(`Database connected`))
+.catch(err => console.log(`Database connection error: ${err.message}`));
+// mongoose.connect("mongodb://localhost/celebsDB");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use("/celebrities", express.static("public/celebPics"));
 app.use(methodOverride("_method"));
 app.locals.moment = require("moment");
 app.use(flash());
 
    ///// AUTH CONFIG /////
 app.use(require("express-session")({
-  	secret: "this is my celebrity app",
-  	resave: false,
-  	saveUninitialized: false
-  }));
+	secret: "this is my celebrity app",
+	resave: false,
+	saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
@@ -46,12 +52,12 @@ app.use(function(req, res, next){
 	res.locals.error       = req.flash("error");
 	next();
 });
-
 	///	ROUTER CONFIG ///
 app.use(userRoute);
 app.use("/celebrities", celebrityRoute);
 app.use("/celebrities/:id/comments", commentRoute);
 
-app.listen(3000, "127.0.0.1", () => {
-	console.log("server running at port:3000");
+
+app.listen(process.env.PORT || 3000, process.env.IP, () => {
+	console.log("server running at PORT:3000/");
 });

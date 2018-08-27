@@ -22,6 +22,7 @@ html, body {
 .btn-default:hover {
   background: lightgray;
   color: brown;
+  border: 1px solid brown;
   text-shadow: 1px 1px 3px gray;
 }
 #slideshow { 

@@ -1,23 +1,28 @@
-<% include ../partials/header %>s
+<% include ../partials/header %>
 <div class= "container">
-	<p class= " h1 text-center clrbrown"> Create New Campground</p>
-	<div class= "col-md-4 col-md-offset-4">
-		<form action= "/celebrities" method= "POST">
-			<div class= "form-group">
-				<input class= "form-control" type= "text" name= "celeb[name]" placeholder= "Enter name of celebrities">
-			</div>
-			<div class= "form-group">
-				<input class= "form-control" type= "text" name= "celeb[image]" placeholder= "Enter image url">
-			</div>
-			<div class= "form-group">
-				<input class= "form-control" type= "text" name= "celeb[country]" placeholder= "Enter Country">
-			</div>
-			<div class= "form-group">
-				<input class= "form-control" type= "text" name= "celeb[description]" placeholder= "Give descriptions">
-			</div>
-			<div class= "form-group">
-				<input class= "btn btn-block clb" type= "submit">
-			</div>
-		</form>
-	</div> 
+<p class= " h1 text-center clrbrown"> Create New Campground</p>
+<div class= "col-md-4 col-md-offset-4">
+	<form action= "/celebrities" method= "POST" enctype="multipart/form-data">
+		<div class= "form-group">
+			<label for="Name">Name:</label>
+			<input id="Name" class= "form-control" type= "text" name= "celeb[name]" placeholder= "Enter name of celebrities">
+		</div>
+		<div class= "form-group">
+			<label for="image">image:</label>
+			<input id="image" class= "form-control" type= "file" name= "image" accept="image/*" required>
+		</div>
+		<div class= "form-group">
+			<label for="Country">Country:</label>
+			<input id="Country" class= "form-control" type= "text" name= "celeb[country]" placeholder= "Enter Country">
+		</div>
+		<div class= "form-group">
+			<label for="desc">Description:</label>
+			<input id="desc" class= "form-control" type= "text" name= "celeb[description]" placeholder= "Give descriptions">
+		</div>
+		<div class= "form-group">
+			<label></label>
+			<input class= "btn btn-block clb" type= "submit">
+		</div>
+	</form>
+</div> 
 <% include ../partials/footer %>
