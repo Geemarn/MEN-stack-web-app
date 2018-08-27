@@ -63,8 +63,8 @@ cloudinary.config({
  router.post("/", middlewareObj.isLoggedin, upload.single('image'), function(req, res){ 
  	cloudinary.uploader.upload(req.file.path, function(result) {
 // add cloudinary url for the image to the campground object under image property
-req.body.celeb.image = result.secure_url;
-req.body.celeb.imageId = result.public_id;
+  req.body.celeb.image = result.secure_url;
+  req.body.celeb.imageId = result.public_id;
 	  // add owner to celebrity
 	  req.body.celeb.owner = {
 	  	id: req.user._id,

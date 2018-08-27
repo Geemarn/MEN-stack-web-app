@@ -19,7 +19,7 @@ body {
 	background: #f7f7f7;
 	color:#293544;
 	font-family: calibri;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
 }
 .jumbotron h2:first-letter {
 	font-size: 2.2em;
@@ -65,7 +65,7 @@ body {
 	      filter: grayscale(0);
 	}
 }
-.thumbnail.index, .thumbnail.show {
+.thumbnail.index, .thumbnail.show, .thumbnail.circle{
 	background: #f7f7f7;
 	border:none;
 }
@@ -91,6 +91,11 @@ body {
 	width: 100%;
 	height: 500px;
 	border-radius: 20px;
+}
+.thumbnail.circle img {
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
 }
 .inline {
 	display: inline-block;

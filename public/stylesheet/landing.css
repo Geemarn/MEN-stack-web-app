@@ -20,9 +20,9 @@ html, body {
   border:none;
 }
 .btn-default:hover {
-  background: lightgray;
+  background: #ddd;
   color: brown;
-  border: 1px solid brown;
+  box-shadow: 0 0 6px brown;
   text-shadow: 1px 1px 3px gray;
 }
 #slideshow { 

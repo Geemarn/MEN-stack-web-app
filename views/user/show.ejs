@@ -1,24 +1,28 @@
 <% include ../partials/header %>
 
 <div class="container">
-	<p class="lead text-center">User Profile</p>
-	<div class="col-md-4">
-		<img src="<%= user.avatar %>" width=150>
-		<h4  class="text-capitalize">Username : <strong> <%= user.username %> </strong></h4>
-		<h4  class="text-capitalize">First Name : <strong> <%= user.firstName %></strong></h4>
-		<h4  class="text-capitalize">last Name : <strong> <%= user.lastName %></strong></h4>
+	<p class="lead text-center text-capitalize text-primary"><%= user.username %>'s user profile</p>
+	<div class="col-md-4 text-center">
+		<div class="thumbnail circle">
+			<img src="<%= user.image %>">
+		</div>
+		<h4>Firstname: <strong class="text-capitalize"> <%= user.firstName %></strong></h4>
+		<h4>Lastname: <strong class="text-capitalize"> <%= user.lastName %></strong></h4>
+		<h4 >Username: <strong class="text-capitalize"> <%= user.username %> </strong></h4>
+		<h4>Email <strong class="text-capitalize"> <%= user.email %></strong></h4>
 	</div>
 	<div class="col-md-4">
-		<p class="lead text-muted">Uploaded celebrities</p>
+		<p class="lead text-muted">Uploaded celebrities.</p>
 		<% celebrities.forEach(function(celebrity){ %>
 		<li>
 			<a href= "/celebrities/<%= celebrity._id %>"><%= celebrity.name%></a>
 		</li>
 		<% }) %>
-		<p class="lead text-muted">Uploaded comments</p>
+		<p class="lead text-muted">Uploaded comments.</p>
 		<% comment.forEach(function(comment){ %>
 		<li><%= comment.text.substring(0,100) %>.....</li>
 		<% }) %>
 	</div>	
 </div>
+
 <% include ../partials/footer%>

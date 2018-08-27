@@ -3,7 +3,7 @@
 <div class= "container">
 	<div class= "col-sm-4 col-sm-offset-4">
 		<p class= "h2 text-center text-success">SIGN UP</p>
-		<form action= "/register" method= "POST">
+		<form action= "/register" method= "POST" enctype="multipart/form-data">
 			<div class= "form-group">
 				<label for="Username">Username:</label>
 				<input id="Username" class= "form-control" type= "text" name= "username" placeholder= "username">
@@ -26,7 +26,7 @@
 			</div>
 			<div class= "form-group">
 				<label id="avatar">Avatar:</label>
-				<input for= "avatar" class="form-control" type= "text" placeholder= "upload image" name= "avatar">
+				<input for= "avatar" class="form-control" type= "file"  name= "image" accept="image/*" required>
 			</div>
 			<div class= "form-group">
 				<label for="isAdmin">isAdmin:</label>
