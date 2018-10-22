@@ -7,9 +7,11 @@
   <title> CELEBZ P-BLOG</title>
   <link rel="stylesheet" type="text/css" href="/stylesheet/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="/stylesheet/app.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheet/all.css">
+  <script  type="text/javascript" defer src="/scripts/all.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -30,16 +32,16 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <form class="navbar-form navbar-left" action="/celebrities" method="GET">
-            <div class="form-group">
+            <div class="form-group search-box">
+              <span class="search"><i class="fas fa-search"></i>/<span>
               <input class="form-search-nav" type="text" name= "fuzzySearch" class="form-control" placeholder="Search for celebrity">
             </div>
-            <button type="submit" class="btn btn-md btn-default">Submit</button>
           </form>
           <% if(!currentUser){ %>
-          <li><a class= "<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>'" href="/register">Sign Up</a></li>
-          <li><a class= "<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>'" href="/login">Login</a></li>
+          <li><a class= "<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>'" href="/register"><span class="search"><i class="fas fa-sign-up-alt"></i>/<span>Sign Up</a></li>
+          <li><a class= "<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>'" href="/login"><span class="search"><i class="fas fa-sign-in-alt"></i>/<span>Sign In</a></li>
           <% }else { %>
-          <Li><a href= "/user/<%= currentUser._id%>">Signed In As <strong><%= currentUser.username.toUpperCase() %></strong></a></Li>
+          <Li><a href= "/user/<%= currentUser._id%>">Signed In As <span class="search"><i class="fas fa-user"></i>/<span><strong><%= currentUser.username.toUpperCase() %></strong></a></Li>
           <li><a href="/logout">Logout</a></li>
           <% } %>
         </ul>

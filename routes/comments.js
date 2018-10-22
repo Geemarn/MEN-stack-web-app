@@ -42,12 +42,13 @@ router.post("/", middlewareObj.isLoggedin, function(req, res){
 	///// EDIT ROUTE //////
 router.get("/:id2/edit", middlewareObj.checkCommentAuthor, function(req, res){
 	Celebrity.findById(req.params.id, function(err, foundCeleb){
-		if(err){
-			console.log("cannot find Celebrity");
+		if(err || !foundCeleb){
+			req.flash("error", "CANNOT FIND CELEBRITY DATA");
+			res.redirect("back");
 		}else {
 			Comment.findById(req.params.id2, function(err, editComment){
 				if(err){
-					console.log("err");
+					res.redirect("back");
 				}else{
 					res.render("comment/edit", {comment: editComment, celeb: foundCeleb});
 				};

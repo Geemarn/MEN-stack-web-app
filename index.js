@@ -57,6 +57,6 @@ app.use("/celebrities", celebrityRoute);
 app.use("/celebrities/:id/comments", commentRoute);
 
 
-app.listen(process.env.PORT || 3000, process.env.IP, () => {
+app.listen(process.env.PORT, process.env.IP, () => {
 	console.log("server running at PORT:3000/");
 });

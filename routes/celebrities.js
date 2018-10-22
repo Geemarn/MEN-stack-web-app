@@ -24,7 +24,7 @@ var imageFilter = function (req, file, cb) {
     cb(null, true);
 };
 var upload = multer({ storage: storage, fileFilter: imageFilter})
-/////cloudinar config//////////
+/////cloudinary config//////////
 cloudinary.config({ 
 	cloud_name: 'adegoke',
 	api_key: process.env.CLOUDINARY_API_KEY, 
@@ -72,7 +72,7 @@ cloudinary.config({
 	  }
 	  Celebrity.create(req.body.celeb, function(err, celeb) {
 	  	if (err) {
-	  		req.flash('error', err.message);
+	  		req.flash('error', "opps something happened..please try again");
 	  		return res.redirect('back');
 	  	}
 	  	req.flash("success", "CELEBRITY PROFILE CREATE SUCCESSFUL");
@@ -83,8 +83,9 @@ cloudinary.config({
  //// SHOW ROUTES ///////
  router.get("/:id", function(req, res){
  	Celebrity.findById(req.params.id).populate("comments").exec(function(err, celeb){
- 		if(err){
- 			console.log(err);
+ 		if(err || !celeb){
+ 			req.flash("error", "CELEBRITY DATABASE NOT FOUND");
+      res.redirect("/celebrities");
  		}else{
  			res.render("celebrity/show", {celeb: celeb});
  		}
@@ -93,8 +94,9 @@ cloudinary.config({
 ///// EDIT ROUTE //////
 router.get("/:id/edit", middlewareObj.checkCelebOwner, function(req, res){
 	Celebrity.findById(req.params.id, function(err, editCeleb){
-		if(err){
-			console.log(err);
+		if(err || !editCeleb){
+			req.flash("error", "CELEBRITY DATABASE NOT FOUND");
+      res.redirect("back");
 		}else{
 			res.render("celebrity/edit", {editCeleb: editCeleb});
 		};
@@ -104,7 +106,7 @@ router.get("/:id/edit", middlewareObj.checkCelebOwner, function(req, res){
  router.put("/:id", middlewareObj.checkCelebOwner, upload.single('image'), function(req, res){
  	Celebrity.findById(req.params.id, async function(err, celeb){
  		if(err){
- 			req.flash("error", err.message);
+ 			req.flash('error', "opps something happened..please try again");
  			res.redirect("back");
  		} else {
  			if (req.file) {
@@ -113,7 +115,8 @@ router.get("/:id/edit", middlewareObj.checkCelebOwner, function(req, res){
  					var result = await cloudinary.v2.uploader.upload(req.file.path);
  					celeb.imageId = result.public_id;
  					celeb.image = result.secure_url;
- 				} catch(err) {
+ 				} 
+        catch(err) {
  					req.flash("error", err.message);
  					return res.redirect("back");
  				}
@@ -131,7 +134,6 @@ router.get("/:id/edit", middlewareObj.checkCelebOwner, function(req, res){
  router.delete("/:id", function(req, res){
  	Celebrity.findById(req.params.id, async function(err, celeb){
  		if(err) {
- 			req.flash("error", err.message);
  			return res.redirect("back");
  		}
  		try {
@@ -141,7 +143,8 @@ router.get("/:id/edit", middlewareObj.checkCelebOwner, function(req, res){
  			res.redirect('/celebrities');
  		} catch(err) {
  			if(err) {
- 				req.flash("error", err.message);
+        console.log(err)
+ 				req.flash("error", "oops something happened ..please try again");
  				return res.redirect("back");
  			}
  		};

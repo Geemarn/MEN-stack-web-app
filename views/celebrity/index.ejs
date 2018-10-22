@@ -1,24 +1,28 @@
 	<% include ../partials/header %>
+<script type="text/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
 
 <div class= "container">
 	<div class= "jumbotron">
 		<div class= "container">
-			<h2> CELEBRITY PHOTO-BLOG </h2>
+			<h2><span class="icon"><i class="far fa-images"></i></span><span class="ist">C</span>ELEBRITY PHOTO-BLOG </h2>
 			<p><em>its all about exploring.....</em></p>
 			<a href= "/celebrities/new" class= "btn btn-success">Add New Celebrity</a>
-			<form action="/celebrities" method="GET">
-				<input class="form-search" type="text" name="fuzzySearch" placeholder="Search Celebrities">
-			</form>
+			<form  action="/celebrities" method="GET">
+	            <div class= "jumbo-search-box">
+	              <input class="form-search" type="text" name= "fuzzySearch" placeholder="Search for celebrity">
+	              <span class="search"><i class="fas fa-search"></i>
+	            </div>
+	        </form>
 		</div>
 	</div>
 	<div class= "row">
 		<% celebs.forEach(function(celeb){%>
-			<div class= "col-md-4 col-sm-6">
+			<div class= "col-md-3 col-sm-6">
 				<div class= "thumbnail index text-center">
 					<img src="<%= celeb.image %>">
 					<div class= "caption">
-						<p class= "h4 text-capitalize"><%= celeb.name %></p>
-						<a href= "/celebrities/<%= celeb._id %>" class= "btn btn-sm btn-info">
+						<p class= "h4 text-capitalize ist"><%= celeb.name %></p>
+						<a href= "/celebrities/<%= celeb._id %>" class= "btn btn-md btn-info">
 						Read More</a>
 					</div>
 				</div>
@@ -31,5 +35,9 @@
 		</div>
 	<% } %>
 </div>
-
+<script>
+	$(".search").click(function(env){
+		$(this).attr("/celebrities")
+	})
+</script>
 <% include ../partials/footer %> 

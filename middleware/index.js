@@ -35,7 +35,7 @@ middlewareObj.checkCommentAuthor = function (req, res, next){
 middlewareObj.checkCelebOwner = function (req, res, next){
 	if(req.isAuthenticated()){
 		Celebrity.findById(req.params.id, function(err, celebOwner){
-			if(err){
+			if(err || !celebOwner){
 				req.flash("error", "CANNOT FIND CELEBRITY DATA");
 				res.redirect("back");
 			}else{
